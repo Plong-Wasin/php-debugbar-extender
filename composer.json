@@ -1,0 +1,21 @@
+{
+    "name": "plong-wasin/debugbar-extender",
+    "description": "Just add removeCollector function and add SpecificMeasureCollector",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wasin Phungwigrai",
+            "email": "wasin2541@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "maximebf/debugbar": "^1.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "DebugBarExtender\\": "src/"
+        }
+    }
+}
