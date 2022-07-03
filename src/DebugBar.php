@@ -29,6 +29,28 @@ class DebugBar extends BaseDebugBar
         $this->collectors = array();
         return $this;
     }
+
+    public function sendDataInHeaders($useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000)
+    {
+        if ($useOpenHandler === null) {
+            $useOpenHandler = self::$useOpenHandlerWhenSendingDataHeaders;
+        }
+        if ($useOpenHandler && $this->storage !== null) {
+            $this->getData();
+            $headerName .= '-id';
+            $headers = array($headerName => $this->getCurrentRequestId());
+        } else {
+            $reflection = new \ReflectionMethod($this, "getDataAsHeaders");
+            $params = [];
+            foreach ($reflection->getParameters() as $param) {
+                // get default
+                $params[] = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
+            }
+            $headers = $this->getDataAsHeaders($headerName ?: $params[0], $maxHeaderLength ?: $params[1], $maxTotalHeaderLength ?: $params[2]);
+        }
+        $this->getHttpDriver()->setHeaders($headers);
+        return $this;
+    }
     /**
      * sort collectors by callback
      * @param callable $callback
