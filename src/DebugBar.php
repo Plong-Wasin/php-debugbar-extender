@@ -18,6 +18,7 @@ class DebugBar extends BaseDebugBar
             throw new DebugBarException("Collector '$name' does not exist");
         }
         unset($this->collectors[$name]);
+        $this->data = null;
         return $this;
     }
     /**
